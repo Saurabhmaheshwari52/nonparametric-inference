@@ -1,16 +1,15 @@
 function plot_density(a1,a2,a3,ind, kind)
     p = kind;
     val = normpdf(sort(a1(:,ind)), mean(a1(:,ind)), std(a1(:,ind)));
-    plot(sort(a1(:,ind)), val,'or')
-    ylabel('frequency')
+    plot(sort(a1(:,ind)), val,'-or')
     grid on
     hold on
     val = normpdf(sort(a2(:,ind)), mean(a2(:,ind)), std(a2(:,ind)));
-    plot(sort(a2(:,ind)), val,'ob')
+    plot(sort(a2(:,ind)), val,'-ob')
     grid on
     hold on
     val = normpdf(sort(a3(:,ind)), mean(a3(:,ind)), std(a3(:,ind)));
-    plot(sort(a3(:,ind)), val,'og')
+    plot(sort(a3(:,ind)), val,'-og')
     grid on
     if strcmp(p,'normal')
         loc = 1;

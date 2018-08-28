@@ -7,7 +7,7 @@ num_dim_y_full = 5;num_dim_x_full = 3;
 
 % true density
 par_loc = 0.5*ones(1,num_dim_x_full); 
-par_scale= 1.35*ones(1,num_dim_x_full);
+par_scale= 1.5*ones(1,num_dim_x_full);
 par_corr = [];
 par = [par_loc,par_scale,par_corr];
 fun_pdf = @(x,par) wblpdf(x(:,1),par(1),par(4)).*wblpdf(x(:,2),par(2),par(5)).*...
@@ -17,14 +17,19 @@ fun_pdf = @(x,par) wblpdf(x(:,1),par(1),par(4)).*wblpdf(x(:,2),par(2),par(5)).*.
 rng(1);
 obs_x_pool_full = [wblrnd(par_loc(1),par_scale(1),1e6,1),wblrnd(par_loc(2),...
     par_scale(2),1e6,1),wblrnd(par_loc(3),par_scale(3),1e6,1)];
+% bool = obs_x_pool_full>2;
+% bool = sum(bool,2);
+% obs_x_pool_full = obs_x_pool_full(bool == 0,:);
+
 obs_y_pool_full = fun_map(obs_x_pool_full);
 
 % naive integration
-fun_pdf_smp = @(x) 1/(2^num_dim_x_full);
+max_obs = 3;
+fun_pdf_smp = @(x) 1/(max_obs^num_dim_x_full);
 
 % generate numerical sampling points
 rng(2);
-smp_x_full = [rand(1e6,1)*2,rand(1e6,1)*2,rand(1e6,1)*2];
+smp_x_full = [rand(1e6,1)*max_obs,rand(1e6,1)*max_obs,rand(1e6,1)*max_obs];
 smp_y_full = fun_map(smp_x_full);
 if ~exist('pdf_aux','var')
     pdf_aux=ones(size(smp_x_full,1),1);
