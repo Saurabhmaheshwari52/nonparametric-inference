@@ -5,7 +5,7 @@ clear
 %     exp(x(:,2)+x(:,3)+1),(x(:,3)-1).^2];
 fun_map = @(x) [(x(:,1)+1).^2.*(x(:,2)+1).^2, (x(:,1)-1).^2,(x(:,2)-1).^2,...
     (x(:,2)+1).^2.*(x(:,3)+1).^2,(x(:,3)-1).^2, (x(:,1)+1).^2.*(x(:,2)+1).^2.*(x(:,3)+1).^2];
-num_dim_y_full = 5;num_dim_x_full = 3;
+num_dim_y_full = 6;num_dim_x_full = 3;
 
 % true density
 par_loc = ones(1,num_dim_x_full);
