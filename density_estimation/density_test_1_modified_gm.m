@@ -10,7 +10,7 @@ fun_map = @(x) [(x(:,1)-1).^2, (x(:,2)-1).^2,...
 num_dim_y_full = 6;num_dim_x_full = 2;
 method = 'gm';
 % true density
-par_loc = [[1,1];[2,2]];
+par_loc = [[.8,.8];[1.2,1.2]];
 par_scale= cat(3,[0.01,0.02],[0.01,0.02]);
 par_corr = [];
 par = [par_loc(:); par_scale(:)];
@@ -42,9 +42,9 @@ end
 
 % estimation specification
 num_sample=200;
-num_obs = 50000;
-num_smp = 1e6;
-num_smp_iter = 1e5;
+num_obs = 250;
+num_smp = 1e5;
+num_smp_iter = 1e4;
 num_sample_test=50;
 
 % only consider observed y

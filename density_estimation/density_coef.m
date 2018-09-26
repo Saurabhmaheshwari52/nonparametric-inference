@@ -14,13 +14,13 @@ tic
 % generate integrated population moment
 moment_pdfsmp_y = zeros(size(momentlist,1),1);
 if ~exist('method')
-    method = ''
-    n_comp = 0
-    n_dim = 0
+    method = '';
 end
 if (strcmp(method, 'gm'))
     pdf_smp = fun_pdf(par, smp_x_full(1:num_smp,:), n_comp, n_dim);
 else
+    n_comp = 0;
+    n_dim = 0;
     pdf_smp = fun_pdf(smp_x_full(1:num_smp,:),par);
 end
 
@@ -36,7 +36,7 @@ tic
 toc
 
 if (strcmp(method, 'gm'))
-    sigmasimulation=weight_smp(smp_y(1:1e5,:),1./fun_pdf_smp(smp_x_full(1:1e5,:)).*fun_pdf_gm(par, smp_x_full(1:1e5,:), n_comp, n_dim),moment_obs_pool_y(moment_select),momentlist(moment_select,:));
+    sigmasimulation=weight_smp(smp_y(1:1e4,:),1./fun_pdf_smp(smp_x_full(1:1e4,:)).*fun_pdf_gm(par, smp_x_full(1:1e4,:), n_comp, n_dim),moment_obs_pool_y(moment_select),momentlist(moment_select,:));
 else
    sigmasimulation=weight_smp(smp_y(1:1e4,:),1./fun_pdf_smp(smp_x_full(1:1e4,:)).*fun_pdf(smp_x_full(1:1e4,:),par),moment_obs_pool_y(moment_select),momentlist(moment_select,:));
 end

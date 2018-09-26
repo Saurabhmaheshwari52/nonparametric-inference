@@ -24,7 +24,7 @@ fun_pdf_smp = @(x) 1/(2^num_dim_x_full);
 
 % generate numerical sampling points
 rng(2);
-smp_x_full = [rand(1e6,1)*2,rand(1e6,1)*2];
+smp_x_full = [rand(1e6,1)*2.5,rand(1e6,1)*2.5];
 smp_y_full = fun_map(smp_x_full);
 if ~exist('pdf_aux','var')
     pdf_aux=ones(size(smp_x_full,1),1);
