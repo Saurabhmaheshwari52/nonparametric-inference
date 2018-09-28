@@ -1,14 +1,14 @@
 % Correlated normal
 clear
-method = 'gam';
+method = 'gm';
 % fast function test
-fun_map = @(x) [exp(x(:,1)+x(:,2)+1),(x(:,1)-1).^2,(x(:,2)-1).^2];
-num_dim_y_full = 3;num_dim_x_full = 2;
+fun_map = @(x) [x(:,1)+x(:,2)+1,(x(:,1)-1).^2,(x(:,2)-1).^2, x(:,1).*x(:,2)];
+num_dim_y_full = 4;num_dim_x_full = 2;
 
 % true density
-par_loc = 2*ones(1,num_dim_x_full); 
-par_scale= 0.2*ones(1,num_dim_x_full);
-par_corr = 0.5;
+par_loc = [[.8,.8];[1.2,1.2]];
+par_scale= cat(3,[0.01,0.02],[0.01,0.02]);
+par_corr = -0.5;
 par = [par_loc,par_scale,par_corr];
 fun_pdf = @(x,par) copula_nataf(method,x,par(1:num_dim_x_full),par(num_dim_x_full+1:num_dim_x_full*2),par(num_dim_x_full*2+1:end));
 
@@ -35,10 +35,10 @@ num_sample=200;
 num_obs = 250;
 num_smp = 1e5;
 num_smp_iter = 1e4;
-num_sample_test=50;
+num_sample_test=15;
 
 % only consider observed y
-indices_y=[1,2,3];num_dim_y=length(indices_y); 
+indices_y=[1,2,3,4];num_dim_y=length(indices_y); 
 density_data;
 
 % only consider selected moments

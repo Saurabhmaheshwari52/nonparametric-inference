@@ -35,7 +35,7 @@ num_sample=200;
 num_obs = 250;
 num_smp = 1e5;
 num_smp_iter = 1e4;
-num_sample_test=50;
+num_sample_test=15;
 
 % only consider observed y
 indices_y=[1,2,3,4];num_dim_y=length(indices_y); 
