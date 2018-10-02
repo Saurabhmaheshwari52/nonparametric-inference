@@ -1,4 +1,4 @@
-function [val,grad] = gmmobj(param,method,x,coef,moment,weight,fun_pdf, n_comp, n_dim)
+function [val,grad] = gmmobj(param,method,x,coef,moment,weight,fun_pdf, n_comp, n_dim, is_corr)
 % n_comp
 % n_dim
 if ~strcmp(method, 'gm')
@@ -7,7 +7,7 @@ if ~strcmp(method, 'gm')
 else
 %     size(coef'*fun_pdf(param, x, n_comp, n_dim))
 %     size(moment)
-    diff = coef'*fun_pdf(param, x, n_comp, n_dim)-moment;
+    diff = coef'*fun_pdf(param, x, n_comp, n_dim, is_corr)-moment;
 end
  
 % Braess

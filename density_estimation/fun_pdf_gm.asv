@@ -1,5 +1,5 @@
 % For bimodal distributions
-function [fun_pdf_val] = fun_pdf_gm(par,x,n_c, n_d, is_corr)
+function [fun_pdf_val] = fun_pdf_gm(par, x, n_c, n_d, is_corr)
 par_l = reshape(par(1:n_c*n_d), n_c, n_d);
 if ~is_corr
     par_s = reshape(par(n_c*n_d+1:end)', 1, n_d, n_c);

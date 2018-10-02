@@ -16,17 +16,20 @@ par_corr = [];
 par = [par_loc(:); par_scale(:)];
 n_comp = size(par_loc,1);
 n_dim = size(par_loc,2);
-fun_pdf = @(par, x, n_c, n_d)fun_pdf_gm(par, x, n_c, n_d);
+is_corr = 0;
+fun_pdf = @(par, x, n_c, n_d, is_corr)fun_pdf_gm(par, x, n_c, n_d, is_corr);
 
 % generate data points
 rng(1);
-gm_loc_1 = par_loc(:,1);
-gm_loc_2 = par_loc(:,2);
-gm_scale_1 = reshape(par_scale(:,:,1), 1, 1, n_comp);
-gm_scale_2 = reshape(par_scale(:,:,2), 1, 1, n_comp);
-gm_obs_1 = gmdistribution(gm_loc_1, gm_scale_1);
-gm_obs_2 = gmdistribution(gm_loc_2, gm_scale_2);
-obs_x_pool_full = [random(gm_obs_1, 1e7), random(gm_obs_2, 1e7)];
+% gm_loc_1 = par_loc(:,1);
+% gm_loc_2 = par_loc(:,2);
+% gm_scale_1 = reshape(par_scale(:,:,1), 1, 1, n_comp);
+% gm_scale_2 = reshape(par_scale(:,:,2), 1, 1, n_comp);
+% gm_obs_1 = gmdistribution(gm_loc_1, gm_scale_1);
+% gm_obs_2 = gmdistribution(gm_loc_2, gm_scale_2);
+% obs_x_pool_full = [random(gm_obs_1, 1e7), random(gm_obs_2, 1e7)];
+gmdist = gmdistribution(par_loc, par_scale);
+obs_x_pool_full = random(gmdist, 1e6);
 obs_y_pool_full = fun_map(obs_x_pool_full);
 
 % naive integration
@@ -45,7 +48,7 @@ num_sample=200;
 num_obs = 250;
 num_smp = 1e5;
 num_smp_iter = 1e4;
-num_sample_test=50;
+num_sample_test=15;
 
 % only consider observed y
 indices_y=[1,2,3,4,5,6];num_dim_y=length(indices_y); 

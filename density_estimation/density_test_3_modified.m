@@ -11,7 +11,8 @@ par_scale= 0.2*ones(1,num_dim_x_full);
 par_corr = -.5;
 par = [par_loc,par_scale,par_corr];
 fun_pdf = @(x,par) mvnpdf(x,par(1:num_dim_x_full),diag(par(1+num_dim_x_full:2*num_dim_x_full).^2)...
-            +flip(diag(prod(par(1+num_dim_x_full:2*num_dim_x_full))*par(2*num_dim_x_full+1:end)*ones(1,num_dim_x_full))));
+            +flip(diag(prod(par(1+num_dim_x_full:...
+        2*num_dim_x_full))*par(2*num_dim_x_full+1:end)*ones(1,num_dim_x_full))));
 
 % generate data points
 rng(1);
