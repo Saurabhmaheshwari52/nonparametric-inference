@@ -17,7 +17,7 @@ if ~exist('method')
     method = '';
 end
 if (strcmp(method, 'gm'))
-    pdf_smp = fun_pdf(par, smp_x_full(1:num_smp,:), n_comp, n_dim, is_corr);
+    pdf_smp = fun_pdf(par,smp_x_full(1:num_smp,:),n_comp,n_dim,is_corr);
 else
     n_comp = 0;
     n_dim = 0;

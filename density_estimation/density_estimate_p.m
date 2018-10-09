@@ -54,14 +54,17 @@ for i=1:num_sample_test
             [par_loc-.5,par_scale*.2,ones(1,num_corr)*-.9],...
             [par_loc+.5,par_scale*10,ones(1,num_corr)*.9],[],options);
         else
-            est_init = rand(size(par)).*[ones(num_dim_x*n_comp,1);par_scale(:)*1.2;ones(1,num_corr)*1.9]...
-                +[par_loc(:)-.5;par_scale(:)*.1;ones(1,num_corr)*-.95];
-            A = [1, -1, 0, 0, 0, 0, 0, 0, ones(1,num_corr)*0; 
-                0, 0, 1, -1, 0, 0, 0, 0, ones(1,num_corr)*0]; 
-            b = [0;0];
+            est_init = rand(size(par)).*[ones(num_dim_x*n_comp,1);par_scale(:)*1.2;ones(1,num_corr)'*1.9]...
+                +[par_loc(:)-.5;par_scale(:)*.1;ones(1,num_corr)'*-.95];
+            A = repmat(zeros(1,size(par,1)),n_dim,1);
+            for j=1:n_dim
+                A(j,(2*j-1)) = 1;
+                A(j,(2*j)) = -1;
+            end
+            b = zeros(n_dim,1);
             [est_total_temp]=  fmincon(fitness,est_init,A,b,[],[] ,...
-            [par_loc(:)-1.5;par_scale(:)*.5;ones(1,num_corr)*-.9],...
-            [par_loc(:)+1.5;par_scale(:)*10;ones(1,num_corr)*.9],[],options);
+            [par_loc(:)-1.5;par_scale(:)*.5;ones(1,num_corr)'*-.9],...
+            [par_loc(:)+1.5;par_scale(:)*10;ones(1,num_corr)'*.9],[],options);
         end
             
         if fitness(est_total_temp)<fitness(par)+1e-6 || flag>10, flag = 0; ...
