@@ -2,17 +2,20 @@
 clear
 method = 'gm';
 % fast function test
-fun_map = @(x) [x(:,1)+x(:,2)+x(:,3)+x(:,4)+1,...
-    (x(:,1)-1).^2,(x(:,2)-1).^2,(x(:,3)-1).^2,(x(:,4)-1).^2,... 
-    x(:,1).*x(:,2).*x(:,3).*x(:,4),...
-    x(:,1)./(x(:,2).*x(:,3).*x(:,4)), x(:,2)./(x(:,1).*x(:,3).*x(:,4)),...
-    x(:,3)./(x(:,2).*x(:,1).*x(:,4)), x(:,4)./(x(:,1).*x(:,2).*x(:,3))];
-num_dim_y_full = 10;num_dim_x_full = 4;
-
+% fun_map = @(x) [x(:,1)+x(:,2)+x(:,3)+x(:,4)+1,...
+%     (x(:,1)-1).^2,(x(:,2)-1).^2,(x(:,3)-1).^2,(x(:,4)-1).^2,... 
+%     x(:,1).*x(:,2).*x(:,3).*x(:,4),...
+%     x(:,1)./(x(:,2).*x(:,3).*x(:,4)), x(:,2)./(x(:,1).*x(:,3).*x(:,4)),...
+%     x(:,3)./(x(:,2).*x(:,1).*x(:,4)), x(:,4)./(x(:,1).*x(:,2).*x(:,3))];
+fun_map = @(x)fun_map_gm(x);
+num_dim_x_full = 10;
+num_corr = num_dim_x_full*(num_dim_x_full-1)/2;
 % true density
-par_loc = [[0.8,0.8,0.8,0.8];[1.2,1.2,1.2,1.2]];
-par_scale= cat(3,[0.01,0.02,0.01,0.02],[0.01,0.02,0.01,0.02]);
-par_corr = [0.1,0.2,0.3,0.4,0.5,0.6];
+par_loc = [ones(1, num_dim_x_full/2)*0.8,ones(1, num_dim_x_full/2) ;
+    ones(1,num_dim_x_full/2)*1.2, ones(1,num_dim_x_full/2)*1.4];
+par_scale= cat(3,ones(1, num_dim_x_full)*0.01,ones(1, num_dim_x_full)*0.02);
+rng(24)
+par_corr = rand(1, num_corr);
 par = [par_loc(:); par_scale(:); par_corr(:)];
 n_comp = size(par_loc,1);
 n_dim = size(par_loc,2);
@@ -35,8 +38,11 @@ obs_y_pool_full = fun_map(obs_x_pool_full);
 fun_pdf_smp = @(x) 1/(2^num_dim_x_full);
 
 % generate numerical sampling points
-rng(2);
-smp_x_full = [rand(1e6,1)*2,rand(1e6,1)*2,rand(1e6,1)*2,rand(1e6,1)*2];
+smp_x_full = [];
+for i = 1:n_dim
+    rng(i)
+    smp_x_full = [smp_x_full, rand(1e6,1)*2];
+end
 smp_y_full = fun_map(smp_x_full);
 if ~exist('pdf_aux','var')
     pdf_aux=ones(size(smp_x_full,1),1);
@@ -45,12 +51,13 @@ end
 % estimation specification
 num_sample=200;
 num_obs = 250;
-num_smp = 1e5;
-num_smp_iter = 1e4;
-num_sample_test=50;
+num_smp = 1e4;
+num_smp_iter = 1e3;
+num_sample_test=25;
 
 % only consider observed y
-indices_y=[1,2,3,4,5,6,7,8,9,10];num_dim_y=length(indices_y); 
+num_dim_y_full = size(obs_y_pool_full,2);
+indices_y=linspace(1,num_dim_y_full,num_dim_y_full);num_dim_y=length(indices_y); 
 density_data;
 
 % only consider selected moments
@@ -61,5 +68,5 @@ density_moment;
 % coefficient computation
 density_coef;
 % only consider estimated x
-indices_x=[1,2,3,4];num_dim_x=length(indices_x);
+indices_x=linspace(1,num_dim_x_full,num_dim_x_full);num_dim_x=length(indices_x);
 density_estimate_p;

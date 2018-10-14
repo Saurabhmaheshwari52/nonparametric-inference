@@ -30,10 +30,11 @@ cov_true=inv(gmmG_true'*((sigmadata+num_obs/num_smp_iter*sigmasimulation)\gmmG_t
 est_total=zeros(num_sample_test,num_param);
 
 
-options = optimoptions('fmincon','TolFun',1e-12,'MaxFunEvals',5e4,'MaxIter',1e4,'GradObj','off','Display','notify');
+options = optimoptions('fmincon','TolFun',1e-12,'MaxFunEvals',5e4,'MaxIter',1e4,'GradObj','on','Display','notify');
 % est_init=[ones(1,num_dim_x).*(par(1:num_dim_x)-.25),ones(1,num_dim_x).*(par(num_dim_x+1:2*num_dim_x)*3),ones(1,num_corr)*0];
 obj_val = zeros(num_sample_test,1); obj_fit = zeros(num_sample_test,1);%recording, objective function value
-for i=1:num_sample_test
+parpool(2)
+parfor i=1:num_sample_test
     rng(i)
     rand_sim= randsample(num_smp,num_smp_iter);
 %     gmmweight=inv(sigmadata+num_obs/length(rand_sim)*sigmasimulation);

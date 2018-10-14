@@ -26,8 +26,8 @@ end
 %gm1 = gmdistribution(par_l1, par_s1);
 %gm2 = gmdistribution(par_l2, par_s2);
 %fun_pdf_val = pdf(gm1, x(:,1)).*pdf(gm2, x(:,2));
-par_l
-par_scalecorr
+%par_l
+%par_scalecorr
 gm1 = gmdistribution(par_l, par_scalecorr);
 fun_pdf_val = pdf(gm1, x);
 end

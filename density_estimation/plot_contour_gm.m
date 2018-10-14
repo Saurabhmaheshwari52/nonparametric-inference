@@ -4,9 +4,9 @@ y = linspace(0,m,100);
 [X,Y] = meshgrid(x,y);
 pdf_or = zeros(100,100);
 pdf_mar = zeros(100,100);
-val = zeros(1,2);
-dim1 = 3;
-dim2 = 4;
+val = zeros(1,10);
+dim1 = 1;
+dim2 = 2;
 %----------------
 par_loc_or = par_loc(:,[dim1, dim2]);
 par_scalecorr_or = par_scalecorr([dim1, dim2],[dim1, dim2],:);

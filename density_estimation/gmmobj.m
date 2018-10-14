@@ -13,7 +13,7 @@ end
 % Braess
 % diff=((ones(size(x))*1/param.*(x<=param))'*coef)'-moment;
 val=diff'*weight*diff;
-grad = 1;
-% grad=2*diff'*weight*gmmjacob(coef,x,param);
+%grad = 1;
+grad=2*diff'*weight*gmmjacob_num_gm(fun_pdf, coef, x, param, n_comp, n_dim, is_corr);
 end
 
